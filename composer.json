@@ -1,0 +1,20 @@
+{
+  "name": "minbash/getsecure",
+  "description": "A library to generate secure links with expiration",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marat Shakirov",
+      "email": "marat@minbash.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Minbash\\Getsecure\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  }
+}
