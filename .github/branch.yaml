@@ -1,0 +1,46 @@
+name: branch
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  security:
+    permissions:
+      contents: read
+      checks: read
+      statuses: read
+      security-events: write
+    uses: affinidi/pipeline-security/.github/workflows/security-scanners.yml
+    with:
+      config-path: .github/labeler.yml
+    secrets: inherit  
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies and build tar
+      run: composer build

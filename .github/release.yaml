@@ -1,0 +1,35 @@
+name: Release
+"on":
+  push:
+    branches:
+      - main
+permissions:
+  contents: read # for checkout
+jobs:
+  release:
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token from app token #https://github.com/tibdex/github-app-token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          private_key: ${{ secrets.RELEASE_BOT_PKEY }}      
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: lts/*
+      - name: configure git
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - run: npm clean-install
+      - run: npx semantic-release@24.2.0
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
