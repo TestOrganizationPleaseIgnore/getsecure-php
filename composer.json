@@ -14,6 +14,12 @@
       "Minbash\\Getsecure\\": "src/"
     }
   },
+  "scripts": {
+    "build": [
+      "@composer --no-plugins --no-interaction install --no-scripts --no-dev",
+      "@composer --no-plugins --no-interaction archive"
+    ]
+  },
   "require": {
     "php": ">=7.4"
   }
