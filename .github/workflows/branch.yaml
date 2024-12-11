@@ -42,8 +42,8 @@ jobs:
     - name: Lint PHP files
       uses: overtrue/phplint@main
       with:
-          path: ./src/*/**.php
-          options: --exclude=vendor
+        path: ./src/*/**.php
+        options: --exclude=vendor
 
     - name: Cache Composer packages
       id: composer-cache
