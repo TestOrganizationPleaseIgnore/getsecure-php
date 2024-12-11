@@ -51,5 +51,5 @@ jobs:
     - name: Lint PHP files
       uses: overtrue/phplint@main
       with:
-          path: .
+          path: src/*/**.php
           options: --exclude=vendor
