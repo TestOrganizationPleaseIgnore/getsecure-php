@@ -42,7 +42,7 @@ jobs:
     - name: Lint PHP files
       uses: overtrue/phplint@main
       with:
-        path: ./src/*/**.php
+        path: .
         options: --exclude=vendor
 
     - name: Cache Composer packages
